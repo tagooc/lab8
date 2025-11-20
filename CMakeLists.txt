@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(include)
 
+find_package(nlohmann_json REQUIRED)
+
 
 # Добавляем исполняемый файл
 add_executable(app main.cpp)

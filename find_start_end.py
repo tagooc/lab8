@@ -42,18 +42,18 @@ def find_colored_cells():
                 try:
                     # Получаем формат конкретной ячейки
                     cell_format = get_user_entered_format(sheet, f'{gspread.utils.rowcol_to_a1(row, col)}')
-                    print(cell_format.backgroundColor)
+
                     if True:
                         color = cell_format.backgroundColor
                         # Проверяем на зеленый цвет (Старт) - высокий зеленый, низкие красный и синий
-                        if color.green == 1:
+                        if color.green == 1 and not color.blue and not color.red :
                             # Координаты возвращаем в формате (col, row) (X, Y)
                             # Вычитаем 1, потому что индексы в Python начинаются с 0
                             result["start"] = (col - 1, row - 1)
                             print(f"🚀 Найден старт (зеленый) в ({col - 1}, {row - 1})")
 
                         # Проверяем на красный цвет (Финиш) - высокий красный, низкие зеленый и синий
-                        if color.red == 1:
+                        if color.red == 1 and not color.blue and not color.green:
                             result["end"] = (col - 1, row - 1)
                             print(f"🎯 Найден финиш (красный) в ({col - 1}, {row - 1})")
                             

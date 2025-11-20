@@ -1,0 +1,5 @@
+gspread==5.12.4
+google-auth==2.27.0
+gspread-formatting==1.1.2
+PyOpenSSL==25.3.0
+cryptography==42.0.5

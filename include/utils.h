@@ -13,5 +13,21 @@ std::pair<int, int> parseCoordinates(const std::string& coord) {
     int y = std::stoi(clean.substr(comma_pos + 1));
     return {x, y};
 }
+void save_path(const std::vector<std::string>& path, const std::string& filename = "path.txt") {
+    std::ofstream file(filename);
+    
+    if (!file.is_open()) {
+        std::cerr << "❌ Ошибка: Не удалось открыть файл " << filename << " для записи" << std::endl;
+        return;
+    }
+    
+    // Записываем только вершины через пробел
+    for (const auto& vertex : path) {
+        file << vertex << " ";
+    }
+    
+    file.close();
+    std::cout << "✅ Путь сохранен в файл: " << filename << std::endl;
+}
 
 #endif // UTILS_H

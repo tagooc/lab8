@@ -45,7 +45,7 @@ def parse_white_cells_to_json(sheet, output_file='graph.json'):
 
                     if True:
                         color = cell_format.backgroundColor
-
+                        print(color, col, row)
                         if (color.green == 1 and color.blue == 1 and color.red == 1)  or (color.green == 1 and not color.blue and not color.red) or (color.red == 1 and not color.blue and not color.green):
                             white_cells.append((col - 1, row - 1))
 

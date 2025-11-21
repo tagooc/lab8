@@ -5,7 +5,14 @@
 #include <nlohmann/json.hpp>
 #include <sstream>
 
+
+
+#include <vector>
+
+
 using json = nlohmann::json;
+
+
 
 int main() {
     // Создаем граф
@@ -35,7 +42,7 @@ int main() {
         return 1;
     }
 
-    // Задаем начальную и конечную вершины
+//---------------------
     std::string startVertex = "(1, 1)";
     std::string goalVertex = "(6, 4)";
 
@@ -49,6 +56,9 @@ int main() {
     // Выводим результат
     std::cout << "\n📊 Результат поиска A*:" << std::endl;
     printPath(path);
+    save_path(path);
+
+
 
     return 0;
 }

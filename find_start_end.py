@@ -71,7 +71,7 @@ def find_colored_cells():
         return {}
 
 
-def save_to_json(data, filename="coordinates.json"):
+def save_to_json(data, filename="breaks.json"):
     """Сохраняет координаты в JSON файл"""
     try:
         # Преобразуем tuple в list для JSON

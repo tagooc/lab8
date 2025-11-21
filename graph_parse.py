@@ -35,7 +35,7 @@ def parse_white_cells_to_json(sheet, output_file='graph.json'):
             return {}
 
         white_cells = []
-        _ = 0
+
         # Проходим по всем ячейкам и проверяем их форматирование
         for row in range(1, num_rows + 1):
             for col in range(1, num_cols + 1):
@@ -46,9 +46,7 @@ def parse_white_cells_to_json(sheet, output_file='graph.json'):
                     if True:
                         color = cell_format.backgroundColor
 
-                        if color.green == 1 and color.blue == 1 and color.red == 1 :
-                            print("Белая клетка", col, row, _)
-                            _ += 1
+                        if (color.green == 1 and color.blue == 1 and color.red == 1)  or (color.green == 1 and not color.blue and not color.red) or (color.red == 1 and not color.blue and not color.green):
                             white_cells.append((col - 1, row - 1))
 
                             

@@ -27,6 +27,18 @@ public:
         adjList[v2].push_back(v1);
     }
 
+    // Получить соседей вершины
+    const std::vector<std::string>& getNeighbors(const std::string& vertex) const {
+        static const std::vector<std::string> empty;
+        auto it = adjList.find(vertex);
+        return it != adjList.end() ? it->second : empty;
+    }
+
+    // Получить всю структуру графа (для совместимости)
+    const std::unordered_map<std::string, std::vector<std::string>>& getAdjList() const {
+        return adjList;
+    }
+
     // Вывести граф
     void print() {
         std::cout << "Граф (список смежности):" << std::endl;
@@ -38,6 +50,6 @@ public:
             std::cout << std::endl;
         }
     }
-
 };
+
 #endif

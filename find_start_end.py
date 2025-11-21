@@ -39,12 +39,14 @@ def find_colored_cells():
         # Проходим по всем ячейкам и проверяем их форматирование
         for row in range(1, num_rows + 1):
             for col in range(1, num_cols + 1):
+                time.sleep(0.1)
                 try:
                     # Получаем формат конкретной ячейки
                     cell_format = get_user_entered_format(sheet, f'{gspread.utils.rowcol_to_a1(row, col)}')
-
+                    
                     if True:
                         color = cell_format.backgroundColor
+                        print(color, col, row)
                         # Проверяем на зеленый цвет (Старт) - высокий зеленый, низкие красный и синий
                         if color.green == 1 and not color.blue and not color.red :
                             # Координаты возвращаем в формате (col, row) (X, Y)
@@ -59,6 +61,7 @@ def find_colored_cells():
                             
                 except Exception as cell_error:
                     # Пропускаем ячейки с ошибками форматирования
+                    print(cell_error)
                     continue
 
         if "start" not in result or "end" not in result:
@@ -77,9 +80,9 @@ def save_to_json(data, filename="breaks.json"):
         # Преобразуем tuple в list для JSON
         json_data = {}
         if "start" in data:
-            json_data["start"] = list(data["start"])
+            json_data["start"] = str(tuple(data["start"]))
         if "end" in data:
-            json_data["end"] = list(data["end"])
+            json_data["end"] = str(tuple(data["end"]))
             
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(json_data, f, indent=2, ensure_ascii=False)

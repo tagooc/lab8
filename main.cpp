@@ -41,10 +41,26 @@ int main() {
         std::cerr << "❌ Ошибка при загрузке данных: " << e.what() << std::endl;
         return 1;
     }
-
+    std::string startVertex, goalVertex;
 //---------------------
-    std::string startVertex = "(1, 1)";
-    std::string goalVertex = "(6, 4)";
+    try {
+        std::ifstream breaks_file("breaks.json");
+        if (!breaks_file.is_open()) {
+            std::cerr << "Ошибка: Не удалось открыть breaks.json" << std::endl;
+            return 1;
+        }
+        json start_end = json::parse(breaks_file);
+        breaks_file.close();
+        startVertex = start_end["start"];
+        goalVertex = start_end["end"];
+        
+
+        std::cout << "✅ Старт и конец успешно загружены из breaks.json" << std::endl;
+
+    } catch (const std::exception& e) {
+        std::cerr << "❌ Ошибка при загрузке данных: " << e.what() << std::endl;
+        return 1;
+    }
 
     std::cout << "🎯 Начальная вершина: " << startVertex << std::endl;
     std::cout << "🏁 Конечная вершина: " << goalVertex << std::endl;

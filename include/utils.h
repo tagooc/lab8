@@ -15,12 +15,12 @@ std::pair<int, int> parseCoordinates(const std::string& coord) {
     int y = std::stoi(clean.substr(comma_pos + 1));
     return {x, y};
 }
-void save_path(const std::vector<std::string>& path) {
+void save_path(const std::vector<std::string>& path, const std::string& filename) {
     auto& cfg = Config::get();
-    std::ofstream file(cfg.file_path());
+    std::ofstream file(filename);
     
     if (!file.is_open()) {
-        std::cerr << "❌ Ошибка: Не удалось открыть файл " << cfg.file_path() << " для записи" << std::endl;
+        std::cerr << "❌ Ошибка: Не удалось открыть файл " << filename << " для записи" << std::endl;
         return;
     }
     
@@ -30,7 +30,7 @@ void save_path(const std::vector<std::string>& path) {
     }
     
     file.close();
-    std::cout << "✅ Путь сохранен в файл: " << cfg.file_path() << std::endl;
+    std::cout << "✅ Путь сохранен в файл: " << filename << std::endl;
 }
 
 #endif // UTILS_H

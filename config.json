@@ -3,5 +3,6 @@
     "file_graph": "graph.json",
     "file_path": "path.txt",
     "sleep_time": 1,
-    "sheet_name": "maze3"
+    "sheet_name": "maze3",
+    "file_path_theta": "path_theta.txt"
 }

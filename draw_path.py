@@ -10,8 +10,8 @@ cfg = Config()
 
 
 
-def read_path_from_file():
-    with open(cfg.file_path, 'r') as file:
+def read_path_from_file(filename):
+    with open(filename, 'r') as file:
         content = file.read().strip()
     
     # Разбиваем по пробелам и создаем кортежи
@@ -37,7 +37,7 @@ except Exception as e:
     print(f"❌ Ошибка Google Sheets: {e}")
     exit()
 
-def color_path_cells(sheet, path, color=(1, 1, 0)):  # Желтый цвет по умолчанию
+def color_path_cells(sheet, path, color=(1, 1, 0), filename = "path.txt"):  # Желтый цвет по умолчанию
     """
     Красит ячейки из пути в указанный цвет
     
@@ -71,9 +71,9 @@ def color_path_cells(sheet, path, color=(1, 1, 0)):  # Желтый цвет п�
         print(f"❌ Ошибка при покраске ячеек: {e}")
 
 
-path = read_path_from_file()
+path = read_path_from_file(cfg.file_path)
 
 # Красим ячейки
-color_path_cells(sheet, path)
+color_path_cells(sheet, path, (0.6, 0.2, 0.8, 0.5))
 
 print(path) 

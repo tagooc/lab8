@@ -1,5 +1,6 @@
 #include "include/graph.h"
 #include "include/a_star.h"
+#include "include/theta.h"
 #include "include/utils.h"
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -78,9 +79,21 @@ int main() {
     // Выводим результат
     std::cout << "\n📊 Результат поиска A*:" << std::endl;
     printPath(path);
-    save_path(path);
+    save_path(path, cfg.file_path());
+//----------------------
 
 
+    std::cout << "🎯 Запуск алгоритма Theta*..." << std::endl;
+    std::vector<std::string> theta_path = thetaStarSearch(g, startVertex, goalVertex);
+
+    std::cout << "\n📊 Результат поиска Theta*:" << std::endl;
+    printThetaPath(theta_path);
+
+    // Сохранение пути
+    if (!theta_path.empty()) {
+        auto& cfg = Config::get();
+        save_path(theta_path, cfg.file_path_theta());
+    }
 
     return 0;
 }

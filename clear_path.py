@@ -8,8 +8,8 @@ from config_loader import Config
 cfg = Config()
 
 
-def read_path_from_file():
-    with open(cfg.file_path, 'r') as file:
+def read_path_from_file(filename = "path.txt"):
+    with open(filename, 'r') as file:
         content = file.read().strip()
     
     # Разбиваем по пробелам и создаем кортежи
@@ -68,7 +68,7 @@ def color_path_cells(sheet, path, color=(1, 1, 1)):  # Желтый цвет п�
         print(f"❌ Ошибка при очистке ячеек: {e}")
 
 # Твой путь (замени на реальные данные)
-path = read_path_from_file()
+path = read_path_from_file("path_theta.txt")
 
 # Красим ячейки
 color_path_cells(sheet, path)

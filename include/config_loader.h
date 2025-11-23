@@ -20,9 +20,11 @@ public:
     std::string file_graph() { return  graph_path; }
     std::string file_path() { return path_file; }
     std::string sheet_name() { return sheet; }
+    std::string file_path_theta() { return path_file_theta; }
     int sleep_time() { return sleep; }
     
 private:
+    std::string path_file_theta;
     std::string breaks_path;
     std::string graph_path; 
     std::string path_file;
@@ -42,6 +44,7 @@ private:
             graph_path = data.value("file_graph", "graph.json");
             path_file = data.value("file_path", "path.txt");
             sleep = data.value("sleep_time", 1);
+            path_file_theta = data.value("file_path_theta", "path2.txt");
             sheet = data.value("sheet_name", "maze");
             
         } catch (const json::exception& e) {

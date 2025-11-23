@@ -43,7 +43,7 @@ def parse_white_cells_to_json(sheet):
         # Проходим по всем ячейкам и проверяем их форматирование
         for row in range(1, num_rows + 1):
             for col in range(1, num_cols + 1):
-                time.sleep(cfg.sleep_time)
+                time.sleep(1)
                 try:
                     # Получаем формат конкретной ячейки
                     cell_format = get_user_entered_format(sheet, f'{gspread.utils.rowcol_to_a1(row, col)}')

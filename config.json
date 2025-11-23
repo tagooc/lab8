@@ -1,0 +1,7 @@
+{
+    "file_breaks": "breaks.json",
+    "file_graph": "graph.json",
+    "file_path": "path.txt",
+    "sleep_time": 1,
+    "sheet_name": "maze3"
+}

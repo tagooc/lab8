@@ -5,6 +5,8 @@
 #include <nlohmann/json.hpp>
 #include <sstream>
 
+#include "include/config_loader.h"
+
 
 
 #include <vector>
@@ -15,12 +17,13 @@ using json = nlohmann::json;
 
 
 int main() {
-    // Создаем граф
+    auto& cfg = Config::get();
+
     Graph g;
 
     try {
         // Загружаем JSON файл с графом
-        std::ifstream graph_file("graph.json");
+        std::ifstream graph_file(cfg.file_graph());
         if (!graph_file.is_open()) {
             std::cerr << "Ошибка: Не удалось открыть graph.json" << std::endl;
             return 1;
@@ -38,13 +41,14 @@ int main() {
         std::cout << "✅ Граф успешно загружен из graph.json" << std::endl;
 
     } catch (const std::exception& e) {
-        std::cerr << "❌ Ошибка при загрузке данных: " << e.what() << std::endl;
+        std::cerr << "❌ Ошибка при загрузке данных графа: " << e.what() << std::endl;
         return 1;
     }
     std::string startVertex, goalVertex;
+
 //---------------------
     try {
-        std::ifstream breaks_file("breaks.json");
+        std::ifstream breaks_file(cfg.file_breaks());
         if (!breaks_file.is_open()) {
             std::cerr << "Ошибка: Не удалось открыть breaks.json" << std::endl;
             return 1;
@@ -61,6 +65,8 @@ int main() {
         std::cerr << "❌ Ошибка при загрузке данных: " << e.what() << std::endl;
         return 1;
     }
+//-----------------------
+
 
     std::cout << "🎯 Начальная вершина: " << startVertex << std::endl;
     std::cout << "🏁 Конечная вершина: " << goalVertex << std::endl;

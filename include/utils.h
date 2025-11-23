@@ -3,6 +3,8 @@
 
 #include <string>
 #include <utility>
+#include "config_loader.h"
+
 
 // Функция для парсинга координат из строки "(x, y)"
 std::pair<int, int> parseCoordinates(const std::string& coord) {
@@ -13,11 +15,12 @@ std::pair<int, int> parseCoordinates(const std::string& coord) {
     int y = std::stoi(clean.substr(comma_pos + 1));
     return {x, y};
 }
-void save_path(const std::vector<std::string>& path, const std::string& filename = "path.txt") {
-    std::ofstream file(filename);
+void save_path(const std::vector<std::string>& path) {
+    auto& cfg = Config::get();
+    std::ofstream file(cfg.file_path());
     
     if (!file.is_open()) {
-        std::cerr << "❌ Ошибка: Не удалось открыть файл " << filename << " для записи" << std::endl;
+        std::cerr << "❌ Ошибка: Не удалось открыть файл " << cfg.file_path() << " для записи" << std::endl;
         return;
     }
     
@@ -27,7 +30,7 @@ void save_path(const std::vector<std::string>& path, const std::string& filename
     }
     
     file.close();
-    std::cout << "✅ Путь сохранен в файл: " << filename << std::endl;
+    std::cout << "✅ Путь сохранен в файл: " << cfg.file_path() << std::endl;
 }
 
 #endif // UTILS_H

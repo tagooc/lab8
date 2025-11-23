@@ -4,9 +4,12 @@ import json
 from google.oauth2.service_account import Credentials
 from gspread_formatting import *
 import time
+from config_loader import Config
+cfg = Config()
 
-def read_path_from_file(filename="path.txt"):
-    with open(filename, 'r') as file:
+
+def read_path_from_file():
+    with open(cfg.file_path, 'r') as file:
         content = file.read().strip()
     
     # Разбиваем по пробелам и создаем кортежи
@@ -26,7 +29,7 @@ try:
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
     creds = Credentials.from_service_account_file('credentials.json', scopes=scope)
     client = gspread.authorize(creds)
-    sheet = client.open("maze").sheet1
+    sheet = client.open(cfg.sheet_name).sheet1
     print("✅ Google Sheets подключен")
 except Exception as e:
     print(f"❌ Ошибка Google Sheets: {e}")
@@ -57,7 +60,7 @@ def color_path_cells(sheet, path, color=(1, 1, 1)):  # Желтый цвет п�
             
             
             # Небольшая задержка чтобы не превысить лимиты API
-            time.sleep(0.1)
+            time.sleep(cfg.sleep_time)
         
 
         

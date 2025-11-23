@@ -3,19 +3,23 @@ import gspread
 from gspread_formatting import *
 import json
 from google.oauth2.service_account import Credentials
+import time
+
+from config_loader import Config
+cfg = Config()
 
 # 📊 Подключаемся к Google Таблице
 try:
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
     creds = Credentials.from_service_account_file('credentials.json', scopes=scope)
     client = gspread.authorize(creds)
-    sheet = client.open("maze").sheet1
+    sheet = client.open(cfg.sheet_name).sheet1
     print("✅ Google Sheets подключен")
 except Exception as e:
     print(f"❌ Ошибка Google Sheets: {e}")
     exit()
 
-def parse_white_cells_to_json(sheet, output_file='graph.json'):
+def parse_white_cells_to_json(sheet):
     """
     Парсит белые клетки как вершины графа
     Координаты вершины = (row, column) ячейки
@@ -35,10 +39,11 @@ def parse_white_cells_to_json(sheet, output_file='graph.json'):
             return {}
 
         white_cells = []
-
+        start_end = {}
         # Проходим по всем ячейкам и проверяем их форматирование
         for row in range(1, num_rows + 1):
             for col in range(1, num_cols + 1):
+                time.sleep(1)
                 try:
                     # Получаем формат конкретной ячейки
                     cell_format = get_user_entered_format(sheet, f'{gspread.utils.rowcol_to_a1(row, col)}')
@@ -46,14 +51,28 @@ def parse_white_cells_to_json(sheet, output_file='graph.json'):
                     if True:
                         color = cell_format.backgroundColor
                         print(color, col, row)
+                        if color.green == 1 and not color.blue and not color.red :
+                            start_end["start"] = (col - 1, row - 1)
+                            print(f"🚀 Найден старт (зеленый) в ({col - 1}, {row - 1})")
+
+                        # Проверяем на красный цвет (Финиш) - высокий красный, низкие зеленый и синий
+                        elif color.red == 1 and not color.blue and not color.green:
+                            start_end["end"] = (col - 1, row - 1)
+                            print(f"🎯 Найден финиш (красный) в ({col - 1}, {row - 1})")
+                            
+                            
                         if (color.green == 1 and color.blue == 1 and color.red == 1)  or (color.green == 1 and not color.blue and not color.red) or (color.red == 1 and not color.blue and not color.green):
                             white_cells.append((col - 1, row - 1))
 
                             
                 except Exception as cell_error:
                     # Пропускаем ячейки с ошибками форматирования
+                    print(cell_error)
                     continue
         
+        if "start" not in start_end or "end" not in start_end:
+            print("⚠️ Не удалось найти обе ячейки (старт/финиш) по цвету.")
+            
         # Теперь для каждой белой ячейки ищем соседей
         for row, col in white_cells:
             neighbors = []
@@ -79,12 +98,28 @@ def parse_white_cells_to_json(sheet, output_file='graph.json'):
     
     # Сохраняем в JSON
     try:
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(graph, f, indent=4, ensure_ascii=False)
-        print(f"✅ Граф сохранен в {output_file}")
+        with open(cfg.file_graph, 'w', encoding='utf-8') as f_graph:
+            json.dump(graph, f_graph, indent=4, ensure_ascii=False)
+        print(f"✅ Граф сохранен в {cfg.file_graph}")
         print(f"📊 Всего вершин: {len(graph)}")
     except Exception as e:
-        print(f"❌ Ошибка при сохранении JSON: {e}")
+        print(f"❌ Ошибка при сохранении JSON graph: {e}")
+    
+    try:
+        # Преобразуем tuple в list для JSON
+        json_data = {}
+        if "start" in start_end:
+            json_data["start"] = str(tuple(start_end["start"]))
+        if "end" in start_end:
+            json_data["end"] = str(tuple(start_end["end"]))
+            
+        with open(cfg.file_breaks, 'w', encoding='utf-8') as f:
+            json.dump(json_data, f, indent=2, ensure_ascii=False)
+        print(f"✅ Координаты сохранены в {cfg.file_graph}")
+        print("📊 Результат:")
+        print(json.dumps(json_data, indent=2, ensure_ascii=False))
+    except Exception as e:
+        print(f"❌ Ошибка при сохранении в JSON: {e}")
 
 # Запускаем парсинг
 if __name__ == "__main__":

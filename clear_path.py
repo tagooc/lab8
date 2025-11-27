@@ -67,12 +67,11 @@ def color_path_cells(sheet, path, color=(1, 1, 1)):  # Желтый цвет п�
     except Exception as e:
         print(f"❌ Ошибка при очистке ячеек: {e}")
 
-# Твой путь (замени на реальные данные)
-path = read_path_from_file("path_theta.txt")
-
+path = read_path_from_file(cfg.file_path)
+path_theta = read_path_from_file(cfg.file_path_theta)
 # Красим ячейки
 color_path_cells(sheet, path)
+color_path_cells(sheet, path_theta)
 
 
 
-print(path) 

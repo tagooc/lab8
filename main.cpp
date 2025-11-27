@@ -74,7 +74,7 @@ int main() {
     std::cout << "🔍 Запуск алгоритма A*..." << std::endl;
 
     // Выполняем поиск A*
-    std::vector<std::string> path = aStarSearch(g, startVertex, goalVertex);
+    std::vector<std::string> path = a_star(g, startVertex, goalVertex);
 
     // Выводим результат
     std::cout << "\n📊 Результат поиска A*:" << std::endl;
@@ -84,11 +84,9 @@ int main() {
 
 
     std::cout << "🎯 Запуск алгоритма Theta*..." << std::endl;
-    std::vector<std::string> theta_path = thetaStarSearch(g, startVertex, goalVertex);
-
+    std::vector<std::string> theta_path = theta_star(g, startVertex, goalVertex);
     std::cout << "\n📊 Результат поиска Theta*:" << std::endl;
-    printThetaPath(theta_path);
-
+    printPath(theta_path);
     // Сохранение пути
     if (!theta_path.empty()) {
         auto& cfg = Config::get();

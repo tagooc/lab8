@@ -72,8 +72,9 @@ def color_path_cells(sheet, path, color=(1, 1, 0), filename = "path.txt"):  # Ж
 
 
 path = read_path_from_file(cfg.file_path)
-
+path_theta = read_path_from_file(cfg.file_path_theta)
 # Красим ячейки
-color_path_cells(sheet, path, (0.6, 0.2, 0.8, 0.5))
+# color_path_cells(sheet, path, (0.6, 0.2, 0.8, 0.5))
+color_path_cells(sheet, path_theta, (0.7, 0.1, 0.1, 0.5))
 
-print(path) 
+
